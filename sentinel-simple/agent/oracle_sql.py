@@ -1,7 +1,4 @@
-import duckdb
-import os
-import hashlib
-import pandas as pd
+import duckdb, os, pandas as pd
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "demo.duckdb")
 
@@ -10,23 +7,13 @@ def ensure_db():
         from data.seed_duckdb import seed
         seed(DB_PATH)
 
-def get_connection():
+def execute_sql(sql: str):
     ensure_db()
     con = duckdb.connect(DB_PATH, read_only=False)
-    return con
-
-def execute_sql(sql: str):
-    con = get_connection()
     try:
         df = con.execute(sql).fetchdf()
         return df.to_dict(orient="records")
     except Exception as e:
         return [{"error": str(e)}]
-
-def hash_rows(rows):
-    m = hashlib.md5()
-    for row in rows:
-        s = "|".join(f"{k}={row[k]}" for k in sorted(row.keys()))
-        m.update(s.encode("utf-8"))
-        m.update(b"\n")
-    return m.hexdigest()
+    finally:
+        con.close()
