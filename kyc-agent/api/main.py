@@ -1,4 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List
 from datetime import datetime
@@ -9,7 +11,16 @@ from kyc.extract import extract_profile
 from kyc.verify import run_checks
 from kyc.note import draft_note
 
-app = FastAPI(title="KYC Simple Demo", version="0.1.0")
+app = FastAPI(title="KYC Simple Demo", version="0.2.0")
+
+os.makedirs("out", exist_ok=True)
+app.mount("/out", StaticFiles(directory="out"), name="out")
+app.mount("/docs", StaticFiles(directory="docs"), name="docs")
+app.mount("/samples", StaticFiles(directory="samples"), name="samples")
+
+@app.get("/")
+def root():
+    return FileResponse("frontend/index.html")
 
 class ProcessResponse(BaseModel):
     run_id: str
@@ -46,12 +57,7 @@ async def process(files: List[UploadFile] = File(...)):
     with open(risk_note_path, "w", encoding="utf-8") as f:
         f.write(note)
 
-    return ProcessResponse(
-        run_id=run_id,
-        profile_path=profile_path,
-        checklist_path=checklist_path,
-        risk_note_path=risk_note_path,
-    )
+    return ProcessResponse(run_id=run_id, profile_path=profile_path, checklist_path=checklist_path, risk_note_path=risk_note_path)
 
 @app.get("/healthz")
 def healthz():

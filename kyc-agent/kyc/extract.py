@@ -15,21 +15,21 @@ OWNER_LINE = re.compile(r"(?i)^\s*owner\s*:\s*([^,]+),\s*percent\s*:\s*([0-9]+(?
 def parse_fields(text: str) -> Dict[str, str]:
     data = {}
     for key, pat in FIELD_PATTERNS.items():
-        m = pat.search(text)
+        m = pat.search(text or "")
         if m:
             data[key] = (m.group(2) if m.lastindex and m.lastindex >= 2 else m.group(1)).strip()
     return data
 
 def parse_owners(text: str):
     owners = []
-    for line in text.splitlines():
+    for line in (text or "").splitlines():
         m = OWNER_LINE.search(line)
         if m:
             owners.append({"name": m.group(1).strip(), "percent": float(m.group(2))})
     return owners
 
 def extract_profile(texts: Dict[str, str]) -> Dict[str, Any]:
-    merged = "\n\n".join([texts[k] for k in sorted(texts.keys())])
+    merged = "\\n\\n".join([texts[k] for k in sorted(texts.keys())])
     base = parse_fields(merged)
     owners = parse_owners(merged)
 

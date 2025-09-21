@@ -22,13 +22,12 @@ This customer appears to be **{name}** (DOB: **{dob}**). We found an ID with pas
 > Notes: This is a demo. All claims must be backed by the cited file names above.
 """
 
-
 def owners_md(owners):
     if not owners:
         return "- (none provided)\n"
     lines = []
     for o in owners:
-        lines.append(f"- {o.get('name','?')}: {o.get('percent','?')}% [source: ownership.txt]")
+        lines.append(f"- {o.get('name','?')}: {o.get('percent','?')}% [source: ownership.pdf]")
     return "\n".join(lines) + "\n"
 
 def draft_note(profile: Dict[str, Any], checks: Dict[str, Any]) -> str:

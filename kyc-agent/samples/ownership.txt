@@ -1,2 +1,0 @@
-Owner: Alex Smith, Percent: 60%
-Owner: Jamie Doe, Percent: 40%
