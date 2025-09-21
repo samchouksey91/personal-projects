@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KYC Simple Demo</title>
+<style>
+  body{margin:0;background:#f5f7fb;font:15px/1.5 system-ui,Inter,Arial,sans-serif;color:#1f2937}
+  .wrap{max-width:900px;margin:40px auto;padding:0 16px}
+  .card{background:#fff;border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.08);padding:24px}
+  h1{margin:0 0 6px;font-size:24px}
+  p.sub{color:#6b7280;margin:0 0 16px}
+  .drop{border:2px dashed #c7d2fe;border-radius:14px;padding:24px;text-align:center;background:#f8fafc;cursor:pointer}
+  .drop:hover{background:#eef2ff}
+  .btn{background:#2563eb;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .row{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .out{margin-top:18px;background:#f9fafb;border-radius:12px;padding:12px;font-family:ui-monospace,Menlo,monospace;color:#334155;overflow:auto}
+  .small{font-size:13px;color:#6b7280}
+  .footer{text-align:center;color:#6b7280;font-size:12px;margin-top:18px}
+  .hide{display:none}
+</style>
+<div class="wrap">
+  <div class="card">
+    <h1>🪪 KYC Simple Demo</h1>
+    <p class="sub">Upload <b>passport.pdf</b>, <b>poa.pdf</b>, <b>ownership.pdf</b>. We extract, check, and produce a cited risk note.</p>
+    <label for="files" class="drop">
+      <div>📄 Drop PDFs here or click to select</div>
+      <div class="small">Accepted: PDF (image or text)</div>
+    </label>
+    <input id="files" type="file" accept="application/pdf" multiple class="hide" />
+    <div class="row">
+      <button id="process" class="btn" disabled>Process KYC Pack</button>
+      <span id="status" class="small"></span>
+    </div>
+    <pre class="out hide" id="out"></pre>
+    <div class="footer">Outputs: <code>./out/&lt;run-id&gt;/</code></div>
+  </div>
+</div>
+<script>
+  const filesInput = document.getElementById('files');
+  const processBtn = document.getElementById('process');
+  const statusEl = document.getElementById('status');
+  const outEl = document.getElementById('out');
+  const drop = document.querySelector('.drop');
+  drop.addEventListener('click', () => filesInput.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.style.background = '#eef2ff'; });
+  drop.addEventListener('dragleave', e => { drop.style.background = '#f8fafc'; });
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.style.background = '#f8fafc';
+    filesInput.files = e.dataTransfer.files;
+    processBtn.disabled = filesInput.files.length === 0;
+  });
+  filesInput.addEventListener('change', () => { processBtn.disabled = filesInput.files.length === 0; });
+  processBtn.addEventListener('click', async () => {
+    if (!filesInput.files.length) return;
+    statusEl.textContent = 'Uploading...'; processBtn.disabled = true; outEl.classList.add('hide');
+    const form = new FormData(); for (const f of filesInput.files) form.append('files', f);
+    try {
+      const res = await fetch('/kyc/process', { method: 'POST', body: form });
+      const data = await res.json(); outEl.textContent = JSON.stringify(data, null, 2); outEl.classList.remove('hide');
+      statusEl.textContent = res.ok ? 'Done.' : 'Error — see output.';
+    } catch { statusEl.textContent = 'Network error'; } finally { processBtn.disabled = false; }
+  });
+</script>
