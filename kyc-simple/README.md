@@ -1,4 +1,4 @@
-# KYC Intake & Risk Note (Simple Demo)
+# KYC Intake & Risk Note 
 
 A **beginner-friendly** demo that reads a small KYC pack, extracts a few facts, runs simple checks,
 and drafts a short **risk note** with **citations** to the source files. Now with **PDF samples** and **basic OCR**.
@@ -15,17 +15,17 @@ and drafts a short **risk note** with **citations** to the source files. Now wit
 ```mermaid
 flowchart LR
   subgraph User
-    U[/"Upload KYC Pack<br/>(passport.pdf • poa.pdf • ownership.pdf)"/]
+    U[/"Upload KYC Pack<br/>passport.pdf • poa.pdf • ownership.pdf"/]
   end
 
   subgraph App[FastAPI Service]
     ING[Read + OCR] --> EXT[Extract fields]
     EXT --> VER[Run checks]
-    VER --> NOTE[Draft risk note (cited)]
+    VER --> NOTE[Draft risk note cited]
   end
 
   U --> ING
-  NOTE -->|Write files| OUT[(./out/run-id)]
+  NOTE -->|Write files| OUT[./out/run-id]
 ```
 
 ## Run
