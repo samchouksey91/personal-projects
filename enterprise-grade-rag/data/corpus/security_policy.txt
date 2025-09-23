@@ -1,0 +1,12 @@
+Customer Data Access Policy
+
+Only authorized personnel may access customer data. Access requires multi-factor authentication and is logged.
+Regular access reviews are conducted quarterly. Emergency access must be approved by the on-call security manager.
+
+Controls include:
+- Principle of least privilege
+- Quarterly access reviews
+- MFA for all production systems
+- Audit logging retained for 1 year
+
+Contact: security@example.com

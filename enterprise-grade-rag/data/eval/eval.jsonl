@@ -1,0 +1,3 @@
+{"question": "What controls exist for customer data access?", "gold_doc_ids": ["security_policy"]}
+{"question": "Do you sell personal information?", "gold_doc_ids": ["privacy_policy"]}
+{"question": "How should new hires request access?", "gold_doc_ids": ["onboarding_guide"]}

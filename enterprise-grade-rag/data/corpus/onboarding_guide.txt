@@ -1,0 +1,10 @@
+Employee Onboarding Guide
+
+Welcome! This guide describes how to request system access. New hires must complete training and request access via the internal portal.
+Managers approve role-based access. Access changes are reviewed weekly by IT.
+
+Important:
+- Complete security training
+- Use internal portal for requests
+- Managers approve roles
+- Weekly IT review of changes

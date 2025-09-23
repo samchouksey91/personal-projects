@@ -1,0 +1,9 @@
+Privacy Notice
+
+We collect limited personal data to deliver services. We do not sell personal information.
+Users may request deletion at any time via privacy@example.com. Data retention is 1 year unless longer is required by law.
+
+Key points:
+- No sale of personal data
+- Right to deletion
+- Retention 1 year by default

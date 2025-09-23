@@ -1,0 +1,5 @@
+RAG Best Practices
+
+Combine keyword and semantic retrieval (hybrid) for better recall. Use re-ranking for precision.
+Always return citations with page and section references. Track retrieval quality with precision@k and citation precision.
+Control costs by bounding top_k and using small re-rankers. Cache frequent queries.
