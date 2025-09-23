@@ -12,14 +12,14 @@ A **production-minded RAG starter**:
 flowchart LR
   subgraph API[FastAPI Service]
     Q[User Question] --> RET[Hybrid Retrieval<br/>BM25 + FAISS]
-    RET --> RER[Re-ranker (optional)]
+    RET --> RER[Re-ranker-optional]
     RER --> ANS[Answer Composer<br/>extractive + citations]
     ANS --> CIT[Citation Checker]
   end
 
   subgraph DATA[Index & Store]
-    CORP[(Corpus Chunks)]
-    VEC[(FAISS Embeddings)]
+    CORP[Corpus Chunks]
+    VEC[FAISS Embeddings]
   end
 
   CORP <--> RET
@@ -29,7 +29,7 @@ flowchart LR
 
 ## Quickstart
 ```bash
-python -m venv .venv && source .venv/bin/activate
+python -m venv enterprise-grad-rag && source enterprise-grad-rag/bin/activate
 pip install -r requirements.txt
 python -m app.index build
 uvicorn app.main:app --reload
