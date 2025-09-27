@@ -8,7 +8,7 @@ flowchart LR
   U[User prompt] --> AGEN[/Generate A & B/]
   AGEN --> LOG[Log feedback]
   LOG --> STORE[logs.jsonl]
-  STORE --> BUILD[Prefs: {prompt, chosen, rejected}]
+  STORE --> BUILD[Prefs: prompt, chosen, rejected]
   BUILD --> DPO[Train LoRA via DPO]
   DPO --> CKPT[adapter]
   CKPT --> EVAL[Offline eval]
